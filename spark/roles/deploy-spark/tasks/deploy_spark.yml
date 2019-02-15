@@ -1,0 +1,19 @@
+---
+
+- name: deploy spark
+  copy:
+    src: "{{ VERSION }}.tgz"
+    dest: "{{ SPARK_DIR }}/"
+
+- name: decompression spark
+  shell: |
+    cd {{ SPARK_DIR }}
+    tar xf {{ VERSION }}.tgz 
+    mv {{ VERSION }} spark
+
+
+- name: generate conf/spark-env.sh
+  template:
+    src: spark-env.sh.j2
+    dest: "{{ SPARK_DIR }}/spark/conf/spark-env.sh"
+    mode: 0755

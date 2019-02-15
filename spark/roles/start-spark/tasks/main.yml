@@ -1,0 +1,9 @@
+---
+
+
+- name: generate config conf/slaves
+  template: src=slaves.j2 dest={{ SPARK_DIR }}/spark/conf/slaves
+
+- name: start spark cluster
+  shell:
+    "{{ SPARK_DIR }}/spark/sbin/start-all.sh"

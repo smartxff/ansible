@@ -1,0 +1,13 @@
+---
+
+- name: deploy spark
+  hosts: all
+  gather_facts: false
+  roles:
+    - deploy-spark
+
+- name: start spark 
+  hosts: master
+  gather_facts: false
+  roles:
+    - start-spark
