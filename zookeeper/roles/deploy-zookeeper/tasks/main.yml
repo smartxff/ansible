@@ -1,0 +1,33 @@
+---
+
+- name: deploy zookeeper
+  copy:
+    src: "{{ VERSION }}.tar.gz"
+    dest: "{{ ZOOKEEPER_DIR }}/"
+
+- name: decompression zookeeper
+  shell: |
+    cd {{ ZOOKEEPER_DIR }}
+    tar xf {{ VERSION }}.tar.gz 
+    mv {{ VERSION }} zookeeper
+
+- name: init DIR
+  file:
+    path: "{{ item }}"
+    state: directory
+    mode: 0755
+  with_items:
+    - "{{ DATA_DIR }}"
+    - "{{ DATA_LOG_DIR }}"
+
+- name: init DIR and myid
+  lineinfile:
+    path: "{{ DATA_DIR }}/myid"
+    line: "{{ myid }}"
+    create: yes
+
+- name: generate zoo.cfg
+  template:
+    src: zoo.cfg.j2
+    dest: "{{ ZOOKEEPER_DIR }}/zookeeper/conf/zoo.cfg"
+
