@@ -3,7 +3,7 @@
 wget http://mirror.bit.edu.cn/apache/zookeeper/zookeeper-3.4.13/zookeeper-3.4.13.tar.gz -O zookeeper/roles/deploy-zookeeper/files/zookeeper-3.4.13.tar.gz
 ```
 
-### 部署spark
+### 部署zookeeper
 
 ```
 ansible-playbook -i host.ini start-cluster.yml

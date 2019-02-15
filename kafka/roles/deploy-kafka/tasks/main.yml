@@ -1,0 +1,24 @@
+---
+
+- name: deploy kafka
+  copy:
+    src: "{{ VERSION }}.tgz"
+    dest: "{{ KAFKA_DIR }}/"
+
+- name: decompression kafka
+  shell: |
+    cd {{ KAFKA_DIR }}
+    tar xf {{ VERSION }}.tgz 
+    mv {{ VERSION }} kafka
+
+- name: init DIR
+  file:
+    path: "{{ DATA_DIR }}"
+    state: directory
+    mode: 0755
+
+
+- name: generate server.properties
+  template:
+    src: server.properties.j2
+    dest: "{{ KAFKA_DIR }}/kafka/config/server.properties"

@@ -1,0 +1,17 @@
+---
+
+- name: deploy kafka
+  hosts: all
+  gather_facts: false
+  roles:
+    - deploy-kafka
+
+- name: start kafka
+  hosts: all
+  gather_facts: false
+  tasks:
+  - name: start kafka
+    shell: |
+      {{ KAFKA_DIR }}/kafka/bin/kafka-server-start.sh -daemon {{ KAFKA_DIR }}/kafka/config/server.properties
+  tags:
+    - start
