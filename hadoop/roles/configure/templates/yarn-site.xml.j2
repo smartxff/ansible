@@ -1,0 +1,205 @@
+<?xml version="1.0"?>
+<!--
+  Licensed under the Apache License, Version 2.0 (the "License");
+  you may not use this file except in compliance with the License.
+  You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS IS" BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the License. See accompanying LICENSE file.
+-->
+<configuration>
+
+<!-- Site specific YARN configuration properties -->
+<property>
+        <name>yarn.resourcemanager.scheduler.class</name>
+        <!--<value>org.apache.hadoop.yarn.server.resourcemanager.scheduler.capacity.CapacityScheduler</value> -->
+        <value>org.apache.hadoop.yarn.server.resourcemanager.scheduler.fair.FairScheduler</value>
+    </property>
+
+    <property>
+        <name>yarn.scheduler.capacity.maximum-am-resource-percent</name>
+        <value>0.6</value>
+    </property>
+
+
+    <property>
+        <name>yarn.resourcemanager.hostname</name>
+        <value>{{ MASTER_HOSTNAM }}</value>
+    </property>
+
+    <property>
+        <name>yarn.resourcemanager.address</name>
+        <value>{{ MASTER_HOSTNAM }}:8032</value>
+    </property>
+
+    <property>
+        <name>yarn.resourcemanager.scheduler.address</name>
+        <value>{{ MASTER_HOSTNAM }}:8030</value>
+    </property>
+
+    <property>
+        <name>yarn.resourcemanager.webapp.address</name>
+        <value>{{ MASTER_HOSTNAM }}:8088</value>
+    </property>
+
+    <property>
+        <name>yarn.resourcemanager.webapp.https.address</name>
+        <value>{{ MASTER_HOSTNAM }}:8090</value>
+    </property> 
+    <property>
+        <name>yarn.resourcemanager.resource-tracker.address</name>
+        <value>{{ MASTER_HOSTNAM }}:8031</value>
+    </property>
+
+    <property>
+        <name>yarn.resourcemanager.admin.address</name>
+        <value>{{ MASTER_HOSTNAM }}:8033</value>
+    </property>
+
+    <property>
+        <name>yarn.resourcemanager.client.thread-count</name>
+        <value>50</value>
+    </property>
+
+    <property>
+        <name>yarn.resourcemanager.scheduler.client.thread-count</name>
+        <value>50</value>
+    </property>
+
+    # 加大队列
+    <property>
+        <name>yarn.scheduler.capacity.ops.default.user-limit-factor</name>
+        <value>100</value>
+    </property>
+    <property>
+        <name>yarn.scheduler.capacity.ops.default.maximum-am-resource-percent</name>
+        <value>80%</value>
+    </property>
+
+
+    <property>
+        <name>yarn.resourcemanager.am.max-attempts</name>
+        <value>60</value>
+    </property>
+
+    <property>
+        <name>yarn.scheduler.minimum-allocation-mb</name>
+        <value>512</value>
+    </property>
+
+    <property>
+        <name>yarn.scheduler.maximum-allocation-mb</name>
+        <value>8192</value>
+    </property>
+
+    <property>
+        <name>yarn.scheduler.increment-allocation-mb</name>
+        <value>256</value>
+    </property>
+
+    <!-- Use For Node MANAGER-->
+    <property>
+        <name>yarn.nodemanager.local-dirs</name>
+        <value>{{ YARN_NODEMANAGER_LOCAL_DIRS }}</value>
+    </property>
+
+    <property>
+        <name>yarn.log-aggregation-enable</name>
+        <value>true</value>
+    </property>
+
+    <property>
+        <name>yarn.nodemanager.remote-app-log-dir</name>
+        <value>{{ YARN_NODEMANAGER_REMOTE_APP_LOG_DIR }}</value>
+    </property>
+
+    <property>
+        <name>yarn.nodemanager.remote-app-log-dir-suffix</name>
+        <value>logs</value>
+    </property>
+    <property>
+        <name>yarn.nodemanager.log-container-debug-info.enabled</name>
+        <value>true</value>
+    </property>
+
+    <property>
+        <name>yarn.nodemanager.resource.memory-mb</name>
+        <value>{{ memory_mb }}</value>
+    </property>
+
+    <property>
+        <name>yarn.nodemanager.resource.cpu-vcores</name>
+        <value>{{ cpu_vcores }}</value>
+    </property>
+    <!-- 支持spark shuffle,需要先启动spark,且拷贝lib到hadoop -->
+    <property>
+        <name>yarn.nodemanager.aux-services</name>
+        <value>mapreduce_shuffle</value>
+    </property>
+
+    <property>
+        <name>yarn.nodemanager.aux-services.mapreduce_shuffle.class</name>
+        <value>org.apache.hadoop.mapred.ShuffleHandler</value>
+    </property>
+
+    <property>
+        <name>yarn.nodemanager.pmem-check-enabled</name>
+        <value>false</value>
+    </property>
+
+    <property>
+        <name>yarn.nodemanager.vmem-check-enabled</name>
+        <value>false</value>
+    </property>
+
+    <property>
+        <name>yarn.nodemanager.delete.debug-delay-sec</name>
+        <value>3600</value>
+    </property>
+
+    <property>
+    <name>yarn.nodemanager.resourcemanager.connect.retry-interval.ms</name>
+        <value>15000</value>
+    </property> 
+    <property>
+        <name>yarn.nodemanager.resourcemanager.connect.max-wait.ms</name>
+        <value>1000</value>
+    </property>
+
+    <property>
+        <name>yarn.nodemanager.vmem-pmem-ratio</name>
+        <value>4</value>
+    <description>Ratio between virtual memory to physical memory when setting memory limits for containers</description>
+    </property>
+
+    <property>
+        <name>yarn.nm.liveness-monitor.expiry-interval-ms</name>
+        <value>120000</value>
+    </property>
+
+    <property>
+        <name>yarn.application.classpath</name>
+        <value>
+            $HADOOP_CONF_DIR,
+            $HADOOP_COMMON_HOME/share/hadoop/common/*,
+            $HADOOP_COMMON_HOME/share/hadoop/common/lib/*,
+            $HADOOP_HDFS_HOME/share/hadoop/hdfs/*,
+            $HADOOP_HDFS_HOME/share/hadoop/hdfs/lib/*,
+            $HADOOP_MAPRED_HOME/share/hadoop/mapreduce/*,
+            $HADOOP_MAPRED_HOME/share/hadoop/mapreduce/lib/*,
+            $HADOOP_YARN_HOME/share/hadoop/yarn/*,
+            $HADOOP_YARN_HOME/share/hadoop/yarn/lib/*,
+            /data/hadoop/share/hadoop/tools/lib/*
+        </value>
+    </property>
+
+    <property>
+        <name>yarn.nodemanager.env-whitelist</name>
+        <value>JAVA_HOME,HADOOP_COMMON_HOME,HADOOP_HDFS_HOME,HADOOP_CONF_DIR,CLASSPATH_PREPEND_DISTCACHE,HADOOP_YARN_HOME,HADOOP_MAPRED_HOME</value>
+    </property>
+</configuration>

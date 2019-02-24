@@ -1,0 +1,29 @@
+<?xml version="1.0"?>
+<configuration>
+  <property>
+        <name>io.compression.codecs</name>
+        <value>org.apache.hadoop.io.compress.GzipCodec,
+               org.apache.hadoop.io.compress.DefaultCodec,
+               org.apache.hadoop.io.compress.BZip2Codec,
+               org.apache.hadoop.io.compress.SnappyCodec
+        </value>
+    </property>
+
+    <!--hdfs临时路径-->
+    <property>
+        <name>hadoop.tmp.dir</name>
+        <value>{{ HADOOP_TEM_DIR }}</value>
+    </property>
+
+    <!--hdfs 的默认地址、端口 访问地址-->
+    <property>
+        <name>fs.defaultFS</name>
+        <value>hdfs://{{ MASTER_HOSTNAM }}:8020</value>
+    </property>
+
+    <property>
+        <name>io.file.buffer.size</name>
+        <value>{{ IO_FILE_BUFFER_SIZE }}</value>
+    </property>
+
+</configuration>

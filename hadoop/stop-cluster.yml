@@ -1,0 +1,29 @@
+---
+
+- name: stop hadoop master
+  hosts: master
+  gather_facts: false
+  tasks:
+  - name: stop master
+    shell: |
+      hdfs --daemon stop namenode
+      hdfs --daemon stop secondarynamenode
+      hdfs --daemon stop datanode
+      yarn --daemon stop resourcemanager
+      yarn --daemon stop nodemanager
+  tags:
+    - stop
+
+- name: stop hadoop node
+  hosts: node
+  gather_facts: false
+  tasks:
+  - name: stop node
+    shell: |
+      hdfs --daemon stop namenode
+      hdfs --daemon stop secondarynamenode
+      hdfs --daemon stop datanode
+      yarn --daemon stop resourcemanager
+      yarn --daemon stop nodemanager
+  tags:
+    - stop

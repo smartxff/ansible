@@ -1,0 +1,36 @@
+<?xml version="1.0"?>
+<configuration>
+<property>
+<name>dfs.namenode.name.dir</name>
+<value>{{ DFS_NAMENODE_NAME_DIR }}</value>
+</property>
+
+<property>
+<name>dfs.datanode.data.dir</name>
+<value>{{ DFS_DATANODE_DATA_DIR }}</value>
+</property>
+
+<property>
+<name>dfs.namenode.checkpoint.dir</name>
+<value>{{ DFS_NAMENODE_CHECKPOINE_DIR }}</value>
+</property>
+
+<property>
+<name>dfs.replication</name>
+<value>{{ DFS_REPLICATION }}</value>
+</property>
+
+<!-- HDFS Web查看主机和端口号 -->
+<!--
+<property>
+<name>dfs.namenode.http-address</name>
+<value>172.16.100.41:50070</value>
+</property>
+-->
+
+<property>
+<name>dfs.webhdfs.enabled</name>
+<value>{{ DFS_WEBHDFS_ENABLED }}</value>
+</property>
+
+</configuration>
