@@ -1,0 +1,4 @@
+server.host: 0.0.0.0
+server.port: 5601 
+elasticsearch.url: "http://{{ groups.node[0] }}:9200"  # 配置es服务器的ip，如果是集群则配置该集群中主节点的ip
+logging.dest: {{ KIBANALOGPATH }}/kibana.log

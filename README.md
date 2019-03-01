@@ -9,3 +9,6 @@ zookeeper 集群自动化安装
 
 ## kafka
 kafka 集群自动化安装
+
+## ELK
+只部署E和K

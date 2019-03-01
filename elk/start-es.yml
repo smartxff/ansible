@@ -1,0 +1,8 @@
+- name: start es
+  hosts: all
+  gather_facts: false
+  tasks:
+  - name: start es
+    systemd:
+      state: started
+      name: elasticsearch

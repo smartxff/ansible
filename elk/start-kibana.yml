@@ -1,0 +1,8 @@
+- name: start kibana
+  hosts: all
+  gather_facts: false
+  tasks:
+  - name: start kibana
+    systemd:
+      state: started
+      name: kibana

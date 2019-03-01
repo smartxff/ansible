@@ -1,0 +1,13 @@
+---
+
+- name: deploy es
+  hosts: all
+  gather_facts: false
+  roles:
+   - deploy-elasticsearch
+
+- name: deploy 
+  hosts: all
+  gather_facts: false
+  roles:
+   - deploy-kibana

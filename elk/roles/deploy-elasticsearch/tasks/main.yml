@@ -1,0 +1,32 @@
+---
+#- name: install java
+#  yum:
+#    name: "{{ item }}"
+#    state: installed
+#  with_items:
+#    - java-1.8.0-openjdk
+#    - java-1.8.0-openjdk-devel
+- name: copy es  rpm
+  copy:
+    src: "elasticsearch-{{ ES_VERSION }}.rpm"
+    dest: "/usr/local/src/"
+
+- name: install es
+  shell: rpm -i /usr/local/src/elasticsearch-{{ ES_VERSION }}.rpm
+  ignore_errors: yes
+
+- name: config elasticsearch.yml
+  template:
+    src: elasticsearch.yml.j2
+    dest: /etc/elasticsearch/elasticsearch.yml 
+
+- name: init DIR
+  file:
+    path: "{{ item }}"
+    state: directory
+    mode: 0755
+    owner: elasticsearch
+    group: elasticsearch
+  with_items:
+    - "{{ ESDATAPATH }}"
+    - "{{ ESLOGPATH }}"

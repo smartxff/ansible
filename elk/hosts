@@ -1,0 +1,18 @@
+[node]
+10.140.17.15  nodename=master ismaster=true  isdatanode=false 
+10.140.15.4   nodename=es-node1 ismaster=false isdatanode=true
+10.140.14.12  nodename=es-node2 ismaster=false isdatanode=true
+
+[kibana]
+10.140.17.15
+
+
+[all:vars]
+ES_VERSION=6.0.0
+KIBANA_VERSION=6.0.0-x86_64
+CLUSTERNAME=es-cluster
+
+ESDATAPATH=/data/es/data
+ESLOGPATH=/data/es/log
+
+KIBANALOGPATH=/data/kibana/log

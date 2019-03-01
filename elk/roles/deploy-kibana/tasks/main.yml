@@ -1,0 +1,31 @@
+---
+#- name: install java
+#  yum:
+#    name: "{{ item }}"
+#    state: installed
+#  with_items:
+#    - java-1.8.0-openjdk
+#    - java-1.8.0-openjdk-devel
+- name: copy kibana  rpm
+  copy:
+    src: "kibana-{{ KIBANA_VERSION }}.rpm"
+    dest: "/usr/local/src/"
+
+- name: install kibana
+  shell: rpm -i /usr/local/src/kibana-{{ KIBANA_VERSION }}.rpm
+  ignore_errors: yes
+
+- name: config /kibana.yml 
+  template:
+    src: kibana.yml.j2
+    dest: /etc/kibana/kibana.yml 
+
+- name: init DIR
+  file:
+    path: "{{ item }}"
+    state: directory
+    mode: 0755
+    owner: kibana
+    group: kibana
+  with_items:
+    - "{{ KIBANALOGPATH }}"

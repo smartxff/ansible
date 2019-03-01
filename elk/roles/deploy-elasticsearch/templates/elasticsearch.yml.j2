@@ -1,0 +1,9 @@
+cluster.name: {{ CLUSTERNAME }}  # 集群中的名称
+node.name: {{ nodename }}  # 该节点名称
+node.master: {{ ismaster }}  # 意思是该节点为主节点
+node.data: {{ isdatanode }}  # 表示这不是数据节点
+network.host: 0.0.0.0  # 监听全部ip，在实际环境中应设置为一个安全的ip
+http.port: 9200  # es服务的端口号
+discovery.zen.ping.unicast.hosts: [{{ groups.node|join(', ') }}] # 配置自动发现
+path.data: {{ ESDATAPATH }}/elasticsearch
+path.logs: {{ ESLOGPATH }}/elasticsearch
