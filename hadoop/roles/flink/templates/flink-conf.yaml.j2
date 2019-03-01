@@ -1,0 +1,8 @@
+jobmanager.rpc.address: {{ groups.master[0] }}
+jobmanager.rpc.port: 6123
+jobmanager.heap.size: {{JOBMANAGER_HEAP_SIZE}}
+taskmanager.heap.size: {{TASKMANAGER_HEAP_SIZE}}
+taskmanager.numberOfTaskSlots: {{TASKMANAGER_NUMBEROfTaskSlots}}
+parallelism.default: {{PARALLELISM_DEFAULT}}
+rest.port: 8081
+env.java.opts: -Dfile.encoding=UTF-8

@@ -1,0 +1,22 @@
+---
+
+- name: decompression flink
+  unarchive:
+    src: "{{ FLINK_VERSION }}-{{ FLINK_SECOND_VERSION}}.tgz"
+    dest: "{{ FLINK_DIR }}"
+
+- name: add flink link
+  file:
+    src: "{{ FLINK_DIR }}/{{ FLINK_VERSION }}"
+    path: "{{ FLINK_DIR }}/flink"
+    state: link
+
+- name: config conf/flink-conf.yaml
+  template:
+    src: flink-conf.yaml.j2
+    dest: "{{ FLINK_DIR }}/flink/conf/flink-conf.yaml"
+    mode: 0755
+- name: config conf/slaves
+  template:
+    src: slaves.j2
+    dest: "{{ FLINK_DIR }}/flink/conf/slaves"
