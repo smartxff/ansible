@@ -1,5 +1,14 @@
 ---
 
+- name: set hostname
+  hostname:
+    name: "{{ hostname }}"
+
+- name: set /etc/hosts
+  template:
+    src: hosts.j2
+    dest: /etc/hosts
+
 - name: decompression jdk
   unarchive:
     src: "{{ JDK_VERSION }}.tar.gz"
