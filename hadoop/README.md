@@ -25,3 +25,10 @@ hdfs namenode -format
 ```
 ansible-playbook -i host.ini start-cluster.yml
 ```
+
+flink
+
+#### 下载flink 到 roles/flink/files/flink-1.7.0-bin-hadoop28-scala_2.12.tgz
+```
+ansible-playbook -i host.ini start-flink.yaml
+```
