@@ -1,5 +1,5 @@
 - name: start kibana
-  hosts: all
+  hosts: kibana
   gather_facts: false
   tasks:
   - name: start kibana
