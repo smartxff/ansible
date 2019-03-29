@@ -1,0 +1,14 @@
+[master]
+172.17.0.5 serverid=1
+
+[slave]
+172.17.0.7 serverid=2
+
+[all:vars]
+DATADIR=/data/mysql/data
+LOGDIR=/data/mysql/log
+mode=cluster
+SLAVEPASS=12321sdfsdEfds!
+ROOTPASS=sdfsdf2343W2.
+POSITION=991
+BINLOGFILENAME=mysql-bin.000002

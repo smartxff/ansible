@@ -1,0 +1,17 @@
+- name: get password
+  shell: |
+    grep -Po 'password[^:]+: \K.*' /data/mysql/log/mysqld.log
+  register: radom_passwd
+
+- name: show password
+  debug:
+    msg: password={{ radom_passwd.stdout }}
+
+- name: config slave user
+  shell: |
+    mysql -uroot -h127.0.0.1 -p"{{ radom_passwd.stdout }}" --connect-expired-password -e 'set password for root@localhost = password("{{ ROOTPASS }}");
+    CHANGE MASTER TO MASTER_HOST="{{ groups.master[0] }}",MASTER_USER="repl",MASTER_PASSWORD="{{ SLAVEPASS }}",MASTER_LOG_FILE="{{ BINLOGFILENAME }}",MASTER_LOG_POS={{ POSITION }};
+    start slave;'
+  ignore_errors: yes
+
+

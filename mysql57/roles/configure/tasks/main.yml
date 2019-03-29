@@ -1,0 +1,33 @@
+- name: create mysql data log dir
+  file:
+    path: "{{ item }}"
+    owner: mysql
+    group: mysql
+    mode: 0755
+    state: directory
+  with_items:
+   - "{{ DATADIR }}"
+   - "{{ LOGDIR }}"
+
+- name: config sigle mysql server
+  template:
+    src: my.cnf.j2
+    dest: "/etc/my.cnf"
+  when: mode == "single"
+
+- name: config msater mysql server
+  template:
+    src: my.cnf.master.j2
+    dest: "/etc/my.cnf"
+  when: 
+   - mode == "cluster"
+   - role == "master"
+
+- name: config slave mysql server
+  template:
+    src: my.cnf.slave.j2
+    dest: "/etc/my.cnf"
+  when:
+   - mode == "cluster"
+   - role == "slave"
+

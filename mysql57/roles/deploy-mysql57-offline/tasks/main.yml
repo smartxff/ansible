@@ -1,0 +1,9 @@
+- name: decompression mysql57.tar.gz
+  unarchive:
+    src: "mysql57.tar.gz"
+    dest: "/usr/local/src/"
+
+- name: install mysql57
+  shell: sh install_mysql57.sh 
+  args:
+    chdir: /usr/local/src/

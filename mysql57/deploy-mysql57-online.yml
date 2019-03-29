@@ -1,0 +1,7 @@
+---
+
+- name: deploy mysql57
+  hosts: all
+  gather_facts: false
+  roles:
+   - deploy-mysql57-online

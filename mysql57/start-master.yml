@@ -1,0 +1,23 @@
+- name: config master mysql
+  hosts: master
+  gather_facts: false
+  roles:
+   - configure
+  vars:
+    role: master
+
+- name: start mysql
+  hosts: master
+  gather_facts: false
+  tasks:
+  - name: start mysql
+    systemd:
+      state: started
+      name: mysqld
+
+
+- name: init master
+  hosts: master
+  gather_facts: false
+  roles:
+   - init-master

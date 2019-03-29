@@ -1,0 +1,23 @@
+- name: config slave mysql
+  hosts: slave
+  gather_facts: false
+  roles:
+   - configure
+  vars:
+    role: slave
+
+- name: start mysql
+  hosts: slave
+  gather_facts: false
+  tasks:
+  - name: start mysql
+    systemd:
+      state: started
+      name: mysqld
+
+
+- name: init slave
+  hosts: slave
+  gather_facts: false
+  roles:
+   - init-slave

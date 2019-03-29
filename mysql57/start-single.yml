@@ -1,0 +1,14 @@
+- name: config single mysql
+  hosts: node
+  gather_facts: false
+  roles:
+   - configure
+
+- name: start mysql
+  hosts: all
+  gather_facts: false
+  tasks:
+  - name: start mysql
+    systemd:
+      state: started
+      name: mysqld

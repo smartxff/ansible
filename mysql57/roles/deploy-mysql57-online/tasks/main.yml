@@ -1,0 +1,9 @@
+- name: install mysql57 repo
+  yum:
+    name: https://repo.mysql.com/mysql57-community-release-el7-11.noarch.rpm 
+    state: present
+
+- name: install mysql57
+  yum:
+    name: mysql-server
+    state: present

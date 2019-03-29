@@ -1,0 +1,4 @@
+set password for root@localhost = password('{{ ROOT_PASSWD }}');
+create user 'repl'@"%" identified by "{{ SLAVEPASS }}";
+GRANT REPLICATION SLAVE ON *.* TO 'repl'@"%";
+flush privileges;

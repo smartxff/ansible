@@ -1,0 +1,7 @@
+[node]
+172.17.0.5
+
+[all:vars]
+DATADIR=/data/mysql/data
+LOGDIR=/data/mysql/log
+mode=single

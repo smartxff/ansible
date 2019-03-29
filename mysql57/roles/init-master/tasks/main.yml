@@ -1,0 +1,24 @@
+- name: get password
+  shell: |
+    grep -Po 'password[^:]+: \K.*' /data/mysql/log/mysqld.log
+  register: radom_passwd
+
+- name: show password
+  debug:
+    msg: password="{{  radom_passwd.stdout }}"
+
+- name: config mstater user
+  shell: |
+    mysql -uroot -h127.0.0.1 -p"{{ radom_passwd.stdout }}" --connect-expired-password -e 'set password for root@localhost = password("{{ ROOTPASS }}");
+    create user "repl"@"%" identified by "{{ SLAVEPASS }}";
+    GRANT REPLICATION SLAVE ON *.* TO "repl"@"%";
+    flush privileges;'
+  ignore_errors: yes
+
+- name: get Position
+  shell: mysql -uroot -h127.0.0.1 -p"{{ ROOTPASS }}" -e 'SHOW MASTER STATUS;'
+  register: master_status
+
+- name: show Position
+  debug: 
+    msg: "{{ master_status.stdout }}"
