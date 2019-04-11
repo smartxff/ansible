@@ -1,0 +1,14 @@
+---
+
+- name: deploy pgsql
+  hosts: node
+  gather_facts: false
+  roles:
+   - deploy-pgsql
+
+
+- name: deploy pgsql
+  hosts: pgpool
+  gather_facts: false
+  roles:
+   - deploy-pgpool-II

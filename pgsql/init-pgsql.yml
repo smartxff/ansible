@@ -1,0 +1,14 @@
+---
+
+- name: deploy pgsql
+  hosts: master
+  gather_facts: false
+  roles:
+   - init-pgsql-master
+
+
+- name: deploy pgsql
+  hosts: slave
+  gather_facts: false
+  roles:
+   - init-pgsql-slave

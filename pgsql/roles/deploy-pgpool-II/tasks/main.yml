@@ -1,0 +1,5 @@
+- name: install pgpool-11
+  yum:
+    name: http://www.pgpool.net/yum/rpms/3.7/redhat/rhel-7-x86_64/pgpool-II-pg11-3.7.9-1pgdg.rhel7.x86_64.rpm
+    state: present
+

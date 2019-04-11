@@ -1,0 +1,19 @@
+- name: install pg11 repo
+  yum:
+    name: https://download.postgresql.org/pub/repos/yum/11/redhat/rhel-7-x86_64/pgdg-redhat11-11-2.noarch.rpm 
+    state: present
+
+- name: install epel
+  yum:
+    name: epel-release
+    state: present
+
+- name: install pg11
+  yum:
+    name: "{{ item }}"
+    state: present
+  with_items:
+   - postgresql11
+   - postgresql11-server
+   - postgresql11-contrib
+   - postgis25_11

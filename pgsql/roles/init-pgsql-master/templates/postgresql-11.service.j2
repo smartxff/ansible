@@ -1,0 +1,31 @@
+[Unit]
+Description=PostgreSQL 11 database server
+Documentation=https://www.postgresql.org/docs/11/static/
+After=syslog.target
+After=network.target
+
+[Service]
+Type=notify
+
+User=postgres
+Group=postgres
+
+
+Environment=PGDATA={{ PG_DATA }}
+
+
+OOMScoreAdjust=-1000
+Environment=PG_OOM_ADJUST_FILE=/proc/self/oom_score_adj
+Environment=PG_OOM_ADJUST_VALUE=0
+
+ExecStartPre=/usr/pgsql-11/bin/postgresql-11-check-db-dir ${PGDATA}
+ExecStart=/usr/pgsql-11/bin/postmaster -D ${PGDATA}
+ExecReload=/bin/kill -HUP $MAINPID
+KillMode=mixed
+KillSignal=SIGINT
+ 
+
+TimeoutSec=0
+
+[Install]
+WantedBy=multi-user.target

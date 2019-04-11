@@ -1,0 +1,13 @@
+max_wal_size = 1GB
+min_wal_size = 80MB
+log_timezone = 'PRC'
+datestyle = 'iso, mdy'
+timezone = 'PRC'
+default_text_search_config = 'pg_catalog.english'
+
+listen_addresses = '*'
+max_connections = 1000
+hot_standby = on
+max_standby_streaming_delay = 30s
+wal_receiver_status_interval = 10s
+hot_standby_feedback = on

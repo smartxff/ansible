@@ -1,0 +1,59 @@
+- name: create pgsql data dir
+  file:
+    path: "{{ item }}"
+    owner: postgres
+    group: postgres
+    mode: 0750
+    state: directory
+  with_items:
+   - "{{ PG_DATA }}"
+
+- name: config postgresql-11.service
+  template:
+    src: postgresql-11.service.j2
+    dest: "/usr/lib/systemd/system/postgresql-11.service"
+
+- name: register pg_data
+  shell: "ls {{ PG_DATA }}"
+  register: pg_data
+
+- name: init data
+  shell: "sudo -u postgres /usr/pgsql-11/bin/initdb -D {{ PG_DATA }}"
+  args:
+    chdir: /var/lib/pgsql
+  when: pg_data.stdout == ""
+
+- name: config pg_hba.conf
+  template:
+    src: pg_hba.conf.j2
+    dest: "{{ PG_DATA }}/pg_hba.conf"
+    owner: postgres
+    owner: postgres
+
+- name: config postgresql.conf
+  template:
+    src: postgresql.conf.j2
+    dest: "{{ PG_DATA }}/postgresql.conf"
+    owner: postgres
+    owner: postgres
+
+- name: start master pgsql
+  systemd:
+    state: restarted 
+    name: postgresql-11
+
+- name: get user info
+  shell: "sudo -u postgres psql -c \"select * from pg_roles where rolname = '{{ REPLICATION_USER }}'\"|grep -Po '.(?= row)'"
+  args:
+    chdir: /var/lib/pgsql
+  register: user_count
+
+- name: show count
+  debug:
+    msg: count="{{  user_count.stdout }}"
+
+- name: create replication user
+  shell: "sudo -u postgres psql -c \"create role {{REPLICATION_USER}} login replication encrypted password '{{REPLICATION_PASSWORD}}';\"" 
+  args:
+    chdir: /var/lib/pgsql 
+  when: user_count.stdout == "0"
