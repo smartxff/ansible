@@ -12,3 +12,6 @@ kafka 集群自动化安装
 
 ## ELK
 只部署E和K
+
+## PGSQL
+基于pgpool+异步流复制的高可用部署

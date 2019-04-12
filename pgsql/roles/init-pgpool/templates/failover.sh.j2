@@ -1,0 +1,5 @@
+#! /bin/sh
+new_master=$1
+pathdir=$2
+/usr/bin/ssh -T $new_master /usr/pgsql-11/bin/pg_ctl promote -D $pathdir
+exit 0;

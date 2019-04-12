@@ -1,0 +1,142 @@
+listen_addresses = '*'
+port = 9999
+socket_dir = '/tmp'
+listen_backlog_multiplier = 2
+serialize_accept = off
+pcp_listen_addresses = '*'
+pcp_port = 9898
+pcp_socket_dir = '/tmp'
+
+
+{% for host in groups.pgpool %}
+backend_hostname{{ hostvars[host].number }} = '{{ host }}'
+backend_port{{ hostvars[host].number }} = 5432
+backend_weight0 = 1
+backend_data_directory{{ hostvars[host].number }} = '{{ PG_DATA }}'
+backend_flag{{ hostvars[host].number }} = 'ALLOW_TO_FAILOVER'
+{% endfor %}
+
+enable_pool_hba = off
+pool_passwd = 'pool_passwd'
+authentication_timeout = 60
+ssl = off
+ssl_ciphers = 'HIGH:MEDIUM:+3DES:!aNULL'
+ssl_prefer_server_ciphers = off
+num_init_children = 32
+max_pool = 4
+child_life_time = 300
+child_max_connections = 0
+connection_life_time = 0
+client_idle_limit = 0
+log_destination = 'stderr'
+log_connections = off
+log_hostname = off
+log_statement = off
+log_per_node_statement = off
+log_standby_delay = 'none'
+syslog_facility = 'LOCAL0'
+syslog_ident = 'pgpool'
+
+
+pid_file_name = '/var/run/pgpool/pgpool.pid'
+connection_cache = on
+reset_query_list = 'ABORT; DISCARD ALL'
+replication_mode = off
+replicate_select = off
+insert_lock = on
+lobj_lock_table = ''
+replication_stop_on_mismatch = off
+failover_if_affected_tuples_mismatch = off
+load_balance_mode = off
+ignore_leading_white_space = on
+white_function_list = ''
+black_function_list = 'nextval,setval,nextval,setval'
+database_redirect_preference_list = ''
+app_name_redirect_preference_list = ''
+allow_sql_comments = off
+master_slave_mode = on
+logdir = '/data/pgpool/log'
+master_slave_sub_mode = 'stream'
+sr_check_period = 0
+
+sr_check_user = '{{PGPOOL_CHECK_USER}}'
+sr_check_password = '{{ PGPOOL_CHECK_PASSWORD }}'
+sr_check_database = '{{ PGPOOL_CHECK_DATABASES }}'
+delay_threshold = 0
+follow_master_command = ''
+health_check_period = 0
+health_check_timeout = 20
+
+health_check_user = '{{ HEALTH_CHECK_USER }}'
+health_check_password = '{{ HEALTH_CHECK_PASSWORD }}'
+health_check_database = '{{ HEALTH_CHECK_DATABASES }}'
+health_check_max_retries = 0
+health_check_retry_delay = 1
+connect_timeout = 10000
+fail_over_on_backend_error = on
+search_primary_node_timeout = 300
+recovery_user = 'nobody'
+recovery_password = ''
+recovery_1st_stage_command = ''
+recovery_2nd_stage_command = ''
+recovery_timeout = 90
+client_idle_limit_in_recovery = 0
+use_watchdog = on
+trusted_servers = ''
+ping_path = '/bin'
+failover_command = '{{PG_DATA}}/failover.sh %h %R'
+wd_hostname = '{{ inventory_hostname }}'
+delegate_IP = '{{ PGPOOL_VIP }}'
+wd_port = 9000
+wd_priority = 1
+wd_authkey = ''
+wd_ipc_socket_dir = '/tmp'
+if_cmd_path = '/sbin'
+if_up_cmd = 'ip addr add $_IP_$/24 dev eth0 label eth0:0'
+if_down_cmd = 'ip addr del $_IP_$/24 dev eth0'
+arping_path = '/usr/sbin'
+arping_cmd = 'arping -U $_IP_$ -w 1'
+clear_memqcache_on_escalation = on
+wd_escalation_command = ''
+wd_de_escalation_command = ''
+failover_when_quorum_exists = on
+failover_require_consensus = on
+allow_multiple_failover_requests_from_node = off
+wd_lifecheck_method = 'heartbeat'
+wd_interval = 10
+wd_heartbeat_port = 9694
+wd_heartbeat_keepalive = 2
+wd_heartbeat_deadtime = 30
+heartbeat_device0 = ''
+wd_life_point = 3
+wd_lifecheck_query = 'SELECT 1'
+wd_lifecheck_dbname = '{{ WD_LIFECHECK_DBNAME }}'
+wd_lifecheck_user = '{{ WD_LIFECHECK_USER }}'
+wd_lifecheck_password = '{{ WD_LIFECHECK_PASSWORD }}'
+
+{% for host in groups.pgpool %}
+{% if host != inventory_hostname %}
+heartbeat_destination{{ hostvars[host].number }} = '{{ host }}'
+heartbeat_destination_port{{ hostvars[host].number }} = 9694 
+other_pgpool_hostname{{ hostvars[host].number }} = '{{ host }}'
+other_pgpool_port{{ hostvars[host].number }} = 9999
+other_wd_port{{ hostvars[host].number }} = 9000
+{% endif %}
+{% endfor %}
+relcache_expire = 0
+relcache_size = 256
+check_temp_table = on
+check_unlogged_table = on
+memory_cache_enabled = off
+memqcache_method = 'shmem'
+memqcache_memcached_host = 'localhost'
+memqcache_memcached_port = 11211
+memqcache_total_size = 67108864
+memqcache_max_num_cache = 1000000
+memqcache_expire = 0
+memqcache_auto_cache_invalidation = on
+memqcache_maxcache = 409600
+memqcache_cache_block_size = 1048576
+memqcache_oiddir = '/data/pgpool/log/oiddir'
+white_memqcache_table_list = ''
+black_memqcache_table_list = ''

@@ -1,0 +1,37 @@
+- name: create pgsql data dir
+  file:
+    path: /data/pgpool/log
+    state: directory
+
+- name: touch pgpool_status
+  file:
+    path: /data/pgpool/log/pgpool_status
+    state: touch
+    mode: 0644 
+
+- name: gen md5 for password
+  shell: /bin/pg_md5 {{ PGPOOL_PASSWORD }}
+  register: pgpool_password
+
+- name: set pgpool manager password
+  lineinfile:
+    path: /etc/pgpool-II/pcp.conf
+    line: "{{ PGPOOL_USER }}:{{ pgpool_password.stdout }}"
+
+- name: install failover.sh
+  template:
+    src: failover.sh.j2
+    dest: "{{PG_DATA}}/failover.sh"
+    owner: postgres
+    owner: postgres
+    mode: 755
+
+- name: config pgpool.conf
+  template:
+    src: pgpool.conf.j2
+    dest: /etc/pgpool-II/pgpool.conf
+
+- name: start pgpool
+  systemd:
+    state: restarted 
+    name: pgpool  

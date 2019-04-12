@@ -10,11 +10,39 @@ master
 slave
 
 [pgpool]
-172.16.0.26
-172.16.0.22
+172.16.0.26  number=0
+172.16.0.22  number=1
 
 
 [all:vars]
+
+#postgres用户的密码
+POSTGRES_PASSWORD=123456
+
+
+#pgsql的数据目录
 PG_DATA=/data/pgsql/data
+
+#主从复制的用户
 REPLICATION_USER=repl
 REPLICATION_PASSWORD=QAZ2wsx123
+
+#pgpool 管理用户
+PGPOOL_USER=postgres
+PGPOOL_PASSWORD=123456
+
+#pgpool 检查探或用户
+PGPOOL_CHECK_USER=postgres
+PGPOOL_CHECK_PASSWORD=123456
+PGPOOL_CHECK_DATABASES=postgres
+HEALTH_CHECK_USER=postgres
+HEALTH_CHECK_PASSWORD=123456
+HEALTH_CHECK_DATABASES=postgres
+
+WD_LIFECHECK_USER=postgres
+WD_LIFECHECK_PASSWORD=123456
+WD_LIFECHECK_DBNAME=postgres
+
+
+#pgpool 高可用的虚拟ip
+PGPOOL_VIP=172.16.0.222

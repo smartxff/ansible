@@ -1,0 +1,20 @@
+---
+
+- name: init pgsql and start
+  hosts: master
+  gather_facts: false
+  roles:
+   - init-pgsql-master
+
+
+- name: init pgsql and start
+  hosts: slave
+  gather_facts: false
+  roles:
+   - init-pgsql-slave
+
+- name: init pgpool and start
+  hosts: pgpool
+  gather_facts: false
+  roles:
+   - init-pgpool
