@@ -1,7 +1,7 @@
 ### 下载es kibana
 ```
-wget https://artifacts.elastic.co/downloads/kibana/kibana-6.0.0-x86_64.rpm -O roles/deploy-elasticsearch/files/kibana-6.0.0-x86_64.rpm
-wget https://artifacts.elastic.co/downloads/elasticsearch/elasticsearch-6.0.0.rpm -O roles/deploy-kibana/files/elasticsearch-6.0.0.rpm
+wget https://artifacts.elastic.co/downloads/kibana/kibana-6.0.0-x86_64.rpm -O roles/deploy-kibana/files/kibana-6.0.0-x86_64.rpm
+wget https://artifacts.elastic.co/downloads/elasticsearch/elasticsearch-6.0.0.rpm -O roles/deploy-elasticsearch/files/elasticsearch-6.0.0.rpm
 ```
 
 ### 部署es和kibana服务
