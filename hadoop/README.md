@@ -21,10 +21,16 @@ ansible-playbook -i host.ini bootstrap.yml
 hdfs namenode -format
 ```
 
-### 启动集群
+### 1. 启动集群
 ```
 ansible-playbook -i host.ini start-cluster.yml
 ```
+
+### 2.只启动hdfs,不启动hadoop
+```
+ansible-playbook -i host.ini start-hdfs-only.yml 
+```
+
 
 flink
 
