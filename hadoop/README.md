@@ -7,8 +7,8 @@
 
 ### 下载jdk和hadoop包
 ```
-wget http://mirror.bit.edu.cn/apache/hadoop/common/hadoop-3.1.2/hadoop-3.1.2.tar.gz -O roles/bootstrap/files/hadoop-3.1.2.tar.gz
-#jdk为oracle 1.8.0_201,请自行下载，下载后保存为 roles/bootstrap/files/jdk-8u201-linux-x64.tar.gz
+wget http://mirror.bit.edu.cn/apache/hadoop/common/hadoop-3.1.2/hadoop-3.1.2.tar.gz -O roles/install-hadoop/files/hadoop-3.1.2.tar.gz
+#jdk为oracle 1.8.0_201,请自行下载，下载后保存为 roles/install-java/files/jdk-8u201-linux-x64.tar.gz
 ```
 
 ### 初始化环境及生产配置文件

@@ -27,3 +27,24 @@
       yarn --daemon stop nodemanager
   tags:
     - stop
+
+- name: clean all
+  hosts: all
+  gather_facts: false
+  tasks:
+  - name: clean data dir
+    file:
+      path: "{{ item }}" 
+      state: absent
+    with_items:
+     - "{{ JAVA_DIR }}/{{ JDK_UNARCHIVE_NAME }}"
+     - "{{ JAVA_DIR }}/java"
+     - "{{ HADOOP_DIR }}/{{ HADOOP_VERSION }}"
+     - "{{ HADOOP_DIR }}/hadoop"
+     - "{{ DFS_NAMENODE_NAME_DIR }}"
+     - "{{ DFS_DATANODE_DATA_DIR }}"
+     - "{{ DFS_NAMENODE_CHECKPOINE_DIR }}"
+     - "{{  YARN_NODEMANAGER_LOCAL_DIRS }}"
+     - "{{ YARN_NODEMANAGER_REMOTE_APP_LOG_DIR }}"
+  tags:
+   - clean

@@ -5,8 +5,11 @@
   gather_facts: false
   roles:
     - bootstrap
+    - install-java
+    - install-hadoop
   tags:
     - bootstrap
+
 
 - name: configure
   hosts: all
