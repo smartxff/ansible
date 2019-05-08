@@ -9,3 +9,34 @@
     src: hosts.j2
     dest: /etc/hosts
 
+- name: create user
+  user: name={{ username }} shell=/bin/bash createhome=yes
+
+- name: set authorized key
+  authorized_key:
+    user: "{{ username }}"
+    key: "{{ lookup('file', '~/.ssh/id_rsa.pub') }}"
+    state: present
+
+- name: update sudoers file
+  lineinfile:
+    dest: /etc/sudoers
+    insertafter: EOF
+    line: '{{ username }} ALL=(ALL) NOPASSWD: ALL'
+    regexp: '^{{ username }} .*'
+    state: present
+
+- name: create dir
+  file:
+    path: "{{ item }}"
+    state: directory
+    owner: "{{ username }}"
+    group: "{{ username }}"
+  with_items:
+   - "{{ JAVA_DIR }}"
+   - "{{ HADOOP_DIR }}"
+   - "{{ DFS_NAMENODE_NAME_DIR }}"
+   - "{{ DFS_DATANODE_DATA_DIR }}"
+   - "{{ DFS_NAMENODE_CHECKPOINE_DIR }}"
+   - "{{  YARN_NODEMANAGER_LOCAL_DIRS }}"
+   - "{{ YARN_NODEMANAGER_REMOTE_APP_LOG_DIR }}"

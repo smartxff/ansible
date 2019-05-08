@@ -5,16 +5,31 @@
   gather_facts: false
   roles:
     - bootstrap
-    - install-java
-    - install-hadoop
   tags:
     - bootstrap
 
+- name: install
+  hosts: all
+  gather_facts: false
+  remote_user: "{{ username }}"
+  roles:
+    - install-java
+    - install-hadoop
+  tags:
+    - install 
 
 - name: configure
   hosts: all
   gather_facts: false
+  remote_user: "{{ username }}"
   roles:
     - configure
   tags:
     - config
+
+- name: format hdfs
+  hosts: master
+  gather_facts: false
+  remote_user: "{{ username }}"
+  roles:
+   - format-hdfs

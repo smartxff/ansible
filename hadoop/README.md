@@ -16,11 +16,6 @@ wget http://mirror.bit.edu.cn/apache/hadoop/common/hadoop-3.1.2/hadoop-3.1.2.tar
 ansible-playbook -i host.ini bootstrap.yml
 ```
 
-### 格式化集群
-```
-hdfs namenode -format
-```
-
 ### 1. 启动集群
 ```
 ansible-playbook -i host.ini start-cluster.yml

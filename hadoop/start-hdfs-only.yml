@@ -3,21 +3,23 @@
 - name: start hadoop master
   hosts: master
   gather_facts: false
+  remote_user: "{{ username }}"
   tasks:
   - name: start master
     shell: |
-      hdfs --daemon start namenode
-      hdfs --daemon start secondarynamenode
-      hdfs --daemon start datanode
+      nohup hdfs --daemon start namenode &
+      nohup hdfs --daemon start secondarynamenode &
+      nohup hdfs --daemon start datanode &
   tags:
     - start
 
 - name: start hadoop node
   hosts: node
   gather_facts: false
+  remote_user: "{{ username }}"
   tasks:
   - name: start node
     shell: |
-      hdfs --daemon start datanode
+      nohup hdfs --daemon start datanode &
   tags:
     - start
