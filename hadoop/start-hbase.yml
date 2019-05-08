@@ -1,0 +1,49 @@
+---
+
+- name: bootstrap
+  hosts: all
+  gather_facts: false
+  roles:
+    - bootstrap
+  tags:
+    - bootstrap
+
+- name: install
+  hosts: all
+  gather_facts: false
+  remote_user: "{{ username }}"
+  roles:
+    - install-hbase
+  tags:
+    - install
+
+- name: configure
+  hosts: all
+  gather_facts: false
+  remote_user: "{{ username }}"
+  roles:
+    - configure-hbase
+  tags:
+    - config
+
+- name: start hbase master
+  hosts: master
+  gather_facts: false
+  remote_user: "{{ username }}"
+  tasks:
+  - name: start master
+    shell: |
+      nohup start-hbase.sh &
+  tags:
+    - start
+
+- name: start hadoop node
+  hosts: node
+  gather_facts: false
+  remote_user: "{{ username }}"
+  tasks:
+  - name: start node
+    shell: |
+      nohup hdfs --daemon start datanode &
+  tags:
+    - start

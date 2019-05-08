@@ -24,3 +24,18 @@
     - export HADOOP_YARN_HOME=$HADOOP_HOME
     - export HADOOP_COMMON_LIB_NATIVE_DIR=$HADOOP_HOME/lib/native
     - export PATH=$PATH:$HADOOP_HOME/sbin:$HADOOP_HOME/bin
+
+- name: create dir
+  sudo: yes
+  file:
+    path: "{{ item }}"
+    state: directory
+    owner: "{{ username }}"
+    group: "{{ username }}"
+  with_items:
+   - "{{ HADOOP_DIR }}"
+   - "{{ DFS_NAMENODE_NAME_DIR }}"
+   - "{{ DFS_DATANODE_DATA_DIR }}"
+   - "{{ DFS_NAMENODE_CHECKPOINE_DIR }}"
+   - "{{  YARN_NODEMANAGER_LOCAL_DIRS }}"
+   - "{{ YARN_NODEMANAGER_REMOTE_APP_LOG_DIR }}"

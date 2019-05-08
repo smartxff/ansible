@@ -1,0 +1,5 @@
+- name: config hbase-site.xml 
+  template:
+    src: hbase-site.xml.single.j2 
+    dest: "{{ HBASE_DIR }}/hbase/conf/hbase-site.xml"
+  when: mode == "single"

@@ -1,0 +1,29 @@
+- name: decompression hbase
+  unarchive:
+    src: "{{ HBASE_VERSION }}.tar.gz"
+    dest: "{{ HBASE_DIR }}"
+
+- name: add hbase link
+  file:
+    src: "{{ HBASE_DIR }}/{{ HBASE_UNARCHIVE_NAME }}"
+    path: "{{ HBASE_DIR }}/hbase"
+    state: link
+
+- name: add env
+  lineinfile:
+    path:  ~/.bashrc
+    line: '{{ item }}'
+  with_items:
+    - export HBASE_HOME="{{ HBASE_DIR }}/hbase"
+    - export PATH="$PATH:$HBASE_HOME/bin"
+
+- name: create dir
+  sudo: yes
+  file:
+    path: "{{ item }}"
+    state: directory
+    owner: "{{ username }}"
+    group: "{{ username }}"
+  with_items:
+   - "{{ HBASE_DIR }}"
+   - "{{ HBASE_DATA_DIR }}"

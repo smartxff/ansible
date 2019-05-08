@@ -11,6 +11,17 @@ wget http://mirror.bit.edu.cn/apache/hadoop/common/hadoop-3.1.2/hadoop-3.1.2.tar
 #jdk为oracle 1.8.0_201,请自行下载，下载后保存为 roles/install-java/files/jdk-8u201-linux-x64.tar.gz
 ```
 
+### 下载hbase包
+```
+wget http://archive.apache.org/dist/hbase/1.3.1/hbase-1.3.1-bin.tar.gz -O roles/install-hbase/files/hbase-1.3.1-bin.tar.gz
+```
+
+### 一.以本地文件系统启动单节点hbase
+```
+ansible-playbook -i example/host.single.hbase.ini start-hbase.yml
+```
+
+### 二.集群版
 ### 初始化环境及生产配置文件
 ```
 ansible-playbook -i host.ini bootstrap.yml
@@ -25,6 +36,7 @@ ansible-playbook -i host.ini start-cluster.yml
 ```
 ansible-playbook -i host.ini start-hdfs-only.yml 
 ```
+
 
 
 flink

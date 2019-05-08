@@ -26,17 +26,3 @@
     regexp: '^{{ username }} .*'
     state: present
 
-- name: create dir
-  file:
-    path: "{{ item }}"
-    state: directory
-    owner: "{{ username }}"
-    group: "{{ username }}"
-  with_items:
-   - "{{ JAVA_DIR }}"
-   - "{{ HADOOP_DIR }}"
-   - "{{ DFS_NAMENODE_NAME_DIR }}"
-   - "{{ DFS_DATANODE_DATA_DIR }}"
-   - "{{ DFS_NAMENODE_CHECKPOINE_DIR }}"
-   - "{{  YARN_NODEMANAGER_LOCAL_DIRS }}"
-   - "{{ YARN_NODEMANAGER_REMOTE_APP_LOG_DIR }}"
