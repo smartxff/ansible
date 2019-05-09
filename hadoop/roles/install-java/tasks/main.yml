@@ -1,3 +1,14 @@
+- name: create dir
+  sudo: yes
+  remote_user: root
+  file:
+    path: "{{ item }}"
+    state: directory
+    owner: "{{ username }}"
+    group: "{{ username }}"
+  with_items:
+   - "{{ JAVA_DIR }}"
+
 - name: decompression jdk
   unarchive:
     src: "{{ JDK_VERSION }}.tar.gz"
@@ -19,12 +30,3 @@
     - export CLASSPATH=.:${JAVA_HOME}/lib:${JRE_HOME}/lib
     - export PATH=${JAVA_HOME}/bin:$PATH
 
-- name: create dir
-  sudo: yes
-  file:
-    path: "{{ item }}"
-    state: directory
-    owner: "{{ username }}"
-    group: "{{ username }}"
-  with_items:
-   - "{{ JAVA_DIR }}"

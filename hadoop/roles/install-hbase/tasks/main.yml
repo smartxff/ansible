@@ -1,3 +1,15 @@
+- name: create dir
+  sudo: yes
+  remote_user: root
+  file:
+    path: "{{ item }}"
+    state: directory
+    owner: "{{ username }}"
+    group: "{{ username }}"
+  with_items:
+   - "{{ HBASE_DIR }}"
+   - "{{ HBASE_DATA_DIR }}"
+
 - name: decompression hbase
   unarchive:
     src: "{{ HBASE_VERSION }}.tar.gz"
@@ -17,13 +29,3 @@
     - export HBASE_HOME="{{ HBASE_DIR }}/hbase"
     - export PATH="$PATH:$HBASE_HOME/bin"
 
-- name: create dir
-  sudo: yes
-  file:
-    path: "{{ item }}"
-    state: directory
-    owner: "{{ username }}"
-    group: "{{ username }}"
-  with_items:
-   - "{{ HBASE_DIR }}"
-   - "{{ HBASE_DATA_DIR }}"

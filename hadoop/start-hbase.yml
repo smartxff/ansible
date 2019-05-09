@@ -13,6 +13,7 @@
   gather_facts: false
   remote_user: "{{ username }}"
   roles:
+    - install-java
     - install-hbase
   tags:
     - install
