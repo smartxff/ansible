@@ -10,7 +10,9 @@
       hdfs --daemon stop namenode
       hdfs --daemon stop secondarynamenode
       hdfs --daemon stop datanode
+      hdfs --daemon stop journalnode
       yarn --daemon stop resourcemanager
+      hdfs --daemon stop zkfc
       yarn --daemon stop nodemanager
   tags:
     - stop
@@ -25,6 +27,8 @@
       hdfs --daemon stop namenode
       hdfs --daemon stop secondarynamenode
       hdfs --daemon stop datanode
+      hdfs --daemon stop journalnode
+      hdfs --daemon stop zkfc
       yarn --daemon stop resourcemanager
       yarn --daemon stop nodemanager
   tags:

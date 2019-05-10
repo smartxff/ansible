@@ -1,11 +1,11 @@
-- name: start zookeeper
+- name: stop zookeeper
   hosts: all
   remote_user: "{{ username }}"
   gather_facts: false
   tasks:
   - name: stop zookeeper
     shell:
-      "{{ ZOOKEEPER_DIR }}/zookeeper/bin/zkServer.sh start"
+      "{{ ZOOKEEPER_DIR }}/zookeeper/bin/zkServer.sh stop"
     ignore_errors: True
   tags:
     - start

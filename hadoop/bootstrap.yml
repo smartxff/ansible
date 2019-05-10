@@ -28,8 +28,10 @@
     - config
 
 - name: format hdfs
-  hosts: master
+  hosts: all
   gather_facts: false
   remote_user: "{{ username }}"
   roles:
    - format-hdfs
+  tags:
+   - format

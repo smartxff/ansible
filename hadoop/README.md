@@ -1,4 +1,9 @@
 ### 设置本地host解析
+
+```
+namenode 要相互可以免密ssh
+```
+
 ```
 #/etc/hosts
 192.168.153.133 serverb

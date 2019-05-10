@@ -1,7 +1,57 @@
+- name: judge journalnode is exits
+  shell: /bin/jps
+  register: jps_result
+  when: mode == "ha"
+
+
+- name: start journalnode
+  shell: nohup hdfs --daemon start journalnode &
+  when:  mode == "ha" and jps_result.stdout.find('JournalNode') == -1
+
+- name: wait journalnode up
+  wait_for:
+    host: "127.0.0.1"
+    port: "8485"
+    state: started
+    msg: "the journalnode is not up"
+  when: mode == "ha"
+
+- name: judge a file or dir is exits
+  shell: ls "{{ DFS_JOURNALNODE_EDITS_DIR }}/mycluster"
+  ignore_errors: True
+  register: result
+  when: mode == "ha" && role == "master"
+
 - name: judge a file or dir is exits
   shell: ls "{{ DFS_NAMENODE_NAME_DIR }}/current"
   ignore_errors: True
-  register: result
+  register: name_result
+  when: role == "master"
 
-- shell: "{{ HADOOP_DIR }}/hadoop/bin/hdfs namenode -format"
-  when: result is failed 
+- shell: "{{ HADOOP_DIR }}/hadoop/bin/hdfs namenode -format -force"
+  when: result is failed and name_result is failed and role == "master" 
+
+
+- name: start master namenode
+  shell: nohup hdfs --daemon start namenode &
+  when: mode == "ha" and jps_result.stdout.find('NameNode') == -1 and role == "master"
+
+
+- shell: "{{ HADOOP_DIR }}/hadoop/bin/hdfs namenode -bootstrapStandby"
+  when: mode == "ha" and role == "standby"
+
+
+- name: start standby namenode
+  shell: nohup hdfs --daemon start namenode &
+  when: mode == "ha" and jps_result.stdout.find('NameNode') == -1 and role == "standby"
+
+- name: add zookeeper zkfc 
+  shell: hdfs zkfc -formatZK 
+  ignore_errors: True
+  args:
+    stdin: Y
+  when: mode == "ha" and role == "master"
+
+- name: start zkfc
+  shell: nohup hdfs --daemon start zkfc &
+  when: mode == "ha" and jps_result.stdout.find('DFSZKFailoverController') == -1 and (role == "standby" or role == "master")

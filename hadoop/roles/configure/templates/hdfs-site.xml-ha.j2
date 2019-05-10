@@ -1,0 +1,58 @@
+<configuration>
+	<property>
+		<name>dfs.nameservices</name>
+		<value>mycluster</value>
+	</property>
+	<property>
+		<name>dfs.ha.namenodes.mycluster</name>
+		<value>{% for host in groups.master%}{% if not loop.first %},{% endif %}{{ hostvars[host].hostname }}{% endfor %}</value>
+	</property>
+{% for host in groups.master%}
+	<property>
+		<name>dfs.namenode.rpc-address.mycluster.{{ hostvars[host].hostname }}</name>
+		<value>{{ hostvars[host].hostname }}:8082</value>
+	</property>
+	<property>
+		<name>dfs.namenode.http-address.mycluster.{{ hostvars[host].hostname }}</name>
+		<value>{{ hostvars[host].hostname }}:50070</value>
+	</property>
+{% endfor %}
+	
+	
+	<property>
+		<name>dfs.namenode.shared.edits.dir</name>
+		<value>qjournal://{% for host in groups.master%}{% if not loop.first %};{% endif %}{{ hostvars[host].hostname }}:8485{% endfor %}{% for host in groups.node%};{{ hostvars[host].hostname }}:8485{% endfor %}/mycluster</value>
+	</property>
+	<property>
+		<name>dfs.client.failover.proxy.provider.mycluster</name>
+		<value>org.apache.hadoop.hdfs.server.namenode.ha.ConfiguredFailoverProxyProvider</value>
+	</property>
+	<property>
+		<name>dfs.ha.fencing.methods</name>
+		<value>sshfence</value>
+	</property>
+	<property>
+		<name>dfs.ha.fencing.ssh.private-key-files</name>
+		<value>/home/{{ username }}/.ssh/id_rsa</value>
+	</property>
+	<property>
+		<name>dfs.replication</name>
+		<value>{{ DFS_REPLICATION }}</value>
+	</property>
+	<property>
+		<name>dfs.namenode.name.dir</name>
+		<value>file://{{ DFS_NAMENODE_NAME_DIR }}</value>
+	</property>
+	<property>
+		<name>dfs.datanode.data.dir</name>
+		<value>fiel://{{ DFS_DATANODE_DATA_DIR }}</value>
+	</property>
+	<property>
+		<name>dfs.journalnode.edits.dir</name>
+		<value>{{ DFS_JOURNALNODE_EDITS_DIR }}</value>
+	</property>
+	<property>
+		<name>dfs.ha.automatic-failover.enabled</name>
+		<value>true</value>
+	</property>
+</configuration>

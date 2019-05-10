@@ -26,3 +26,14 @@
     regexp: '^{{ username }} .*'
     state: present
 
+- name: create dir
+  sudo: yes
+  remote_user: root
+  file:
+    path: "{{ item }}"
+    state: directory
+    owner: "{{ username }}"
+    group: "{{ username }}"
+  with_items:
+   - "{{ DFS_JOURNALNODE_EDITS_DIR }}"
+  when: mode == "ha"
