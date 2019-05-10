@@ -1,13 +1,23 @@
 ---
 
+- name: bootstrap
+  hosts: all
+  gather_facts: false
+  roles:
+    - bootstrap
+  tags:
+    - bootstrap
+
 - name: deploy zookeeper
   hosts: all
+  remote_user: "{{ username }}"
   gather_facts: false
   roles:
     - deploy-zookeeper
 
 - name: start zookeeper
   hosts: all
+  remote_user: "{{ username }}"
   gather_facts: false
   tasks:
   - name: start zookeeper
