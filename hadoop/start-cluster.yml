@@ -12,6 +12,7 @@
       nohup hdfs --daemon start datanode &
       nohup yarn --daemon start resourcemanager &
       nohup yarn --daemon start nodemanager &
+    when: mode == "single"
   tags:
     - start
 
@@ -27,5 +28,10 @@
       nohup hdfs --daemon start datanode &
       nohup yarn --daemon start resourcemanager &
       nohup yarn --daemon start nodemanager &
+    when: mode == "single"
+  - name: start ha node
+    shell: |
+      nohup hdfs --daemon start datanode &
+    when: mode == "ha"
   tags:
     - start

@@ -26,10 +26,10 @@
   shell: ls "{{ DFS_NAMENODE_NAME_DIR }}/current"
   ignore_errors: True
   register: name_result
-  when: role == "master"
+  when: mode == "single" or mode == "ha" and role == "master"
 
 - shell: "{{ HADOOP_DIR }}/hadoop/bin/hdfs namenode -format -force"
-  when: result is failed and name_result is failed and role == "master" 
+  when: result is failed and name_result is failed and ( mode == "single" or mode == "ha" and role == "master" )
 
 
 - name: start master namenode

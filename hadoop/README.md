@@ -42,11 +42,23 @@ ansible-playbook -i host.ini start-cluster.yml
 ansible-playbook -i host.ini start-hdfs-only.yml 
 ```
 
-
-
 flink
 
 #### 下载flink 到 roles/flink/files/flink-1.7.0-bin-hadoop28-scala_2.12.tgz
 ```
 ansible-playbook -i host.ini start-flink.yaml
 ```
+
+### 三。高可用集群版
+#### 必须首先安装zookeeper,然后把zookeeper的地址填入host-ha.ini中
+
+#### 部署hadoop程序，初始化hdfs，启动ha的namenode
+```
+ansible-playbook -i host-ha.ini bootstrap.yml
+```
+#### 部署datanode
+```
+ansible-playboot -i host-ha.ini bootstrap.yml
+```
+
+
