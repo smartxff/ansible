@@ -7,6 +7,7 @@
   tasks:
   - name: stop master
     shell: |
+      hbase-daemon.sh stop master
       hdfs --daemon stop namenode
       hdfs --daemon stop secondarynamenode
       hdfs --daemon stop datanode
@@ -24,6 +25,7 @@
   tasks:
   - name: stop node
     shell: |
+      hbase-daemon.sh stop regionserver
       hdfs --daemon stop namenode
       hdfs --daemon stop secondarynamenode
       hdfs --daemon stop datanode

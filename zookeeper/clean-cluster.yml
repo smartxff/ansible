@@ -4,11 +4,12 @@
   gather_facts: false
   tasks:
   - name: stop zookeeper
-    shell:
-      "{{ ZOOKEEPER_DIR }}/zookeeper/bin/zkServer.sh stop"
+    systemd:
+      state: stopped
+      name: zookeeper
     ignore_errors: True
   tags:
-    - start
+    - stop
 
 - name: clean all
   hosts: all
@@ -31,5 +32,6 @@
      - "{{ ZOOKEEPER_DIR }}"
      - "{{ DATA_DIR }}"
      - "{{ DATA_LOG_DIR }}"
+     - /etc/systemd/system/zookeeper.service
   tags:
    - clean

@@ -6,3 +6,4 @@
     systemd:
       state: started
       name: kibana
+      enabled: yes

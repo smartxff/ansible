@@ -23,13 +23,14 @@ wget http://archive.apache.org/dist/hbase/1.3.1/hbase-1.3.1-bin.tar.gz -O roles/
 
 ### 一.以本地文件系统启动单节点hbase
 ```
+ansible-playbook -i example/host.single.hbase.ini deploy-hbase.yml
 ansible-playbook -i example/host.single.hbase.ini start-hbase.yml
 ```
 
 ### 二.集群版
 ### 初始化环境及生产配置文件
 ```
-ansible-playbook -i host.ini bootstrap.yml
+ansible-playbook -i host.ini deploy-hdfs.yml
 ```
 
 ### 1. 启动集群
@@ -54,11 +55,18 @@ ansible-playbook -i host.ini start-flink.yaml
 
 #### 部署hadoop程序，初始化hdfs，启动ha的namenode
 ```
-ansible-playbook -i host-ha.ini bootstrap.yml
+ansible-playbook -i host-ha.ini deploy-hdfs.yml
 ```
-#### 部署datanode
+#### 启动datanode
 ```
-ansible-playboot -i host-ha.ini bootstrap.yml
+ansible-playboot -i host-ha.ini start-cluster.yml 
 ```
 
-
+### 部署hbase
+```
+ansible-playbook -i host-ha.ini deploy-hbase.yml
+```
+### 启动hbase
+```
+ansible-playbook -i host-ha.ini start-hbase.yml
+```

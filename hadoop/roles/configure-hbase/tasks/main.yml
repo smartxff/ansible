@@ -3,3 +3,15 @@
     src: hbase-site.xml.single.j2 
     dest: "{{ HBASE_DIR }}/hbase/conf/hbase-site.xml"
   when: mode == "single"
+
+- name: config hbase-site.xml 
+  template:
+    src: hbase-site.xml.ha.j2 
+    dest: "{{ HBASE_DIR }}/hbase/conf/hbase-site.xml"
+  when: mode == "ha"
+
+- name: config hbase-env.sh 
+  template:
+    src: hbase-env.sh.j2 
+    dest: "{{ HBASE_DIR }}/hbase/conf/hbase-env.sh"
+  when: mode == "ha"

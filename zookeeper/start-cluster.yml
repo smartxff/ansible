@@ -14,14 +14,18 @@
   gather_facts: false
   roles:
     - deploy-zookeeper
+  tags:
+    - deploy
 
 - name: start zookeeper
   hosts: all
-  remote_user: "{{ username }}"
   gather_facts: false
   tasks:
   - name: start zookeeper
-    shell:
-      "{{ ZOOKEEPER_DIR }}/zookeeper/bin/zkServer.sh start"
+    systemd:
+      state: started
+      name: zookeeper
+      daemon_reload: yes
+      enabled: yes
   tags:
     - start
