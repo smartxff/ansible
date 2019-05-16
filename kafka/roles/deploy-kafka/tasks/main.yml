@@ -1,5 +1,7 @@
 ---
 - name: install java
+  sudo: yes
+  remote_user: root
   yum:
     name: "{{ item }}"
     state: installed
@@ -7,21 +9,40 @@
     - java-1.8.0-openjdk
     - java-1.8.0-openjdk-devel
 
+- name: init DIR
+  sudo: yes
+  remote_user: root
+  file:
+    path: "{{ KAFKA_DIR }}"
+    state: directory
+    owner: "{{ username }}"
+    group: "{{ username }}"
+    mode: 0755
+
 - name: deploy kafka
   copy:
     src: "{{ VERSION }}.tgz"
     dest: "{{ KAFKA_DIR }}/"
 
 - name: decompression kafka
-  shell: |
-    cd {{ KAFKA_DIR }}
-    tar xf {{ VERSION }}.tgz 
-    mv {{ VERSION }} kafka
+  unarchive:
+    src: "{{ VERSION }}.tgz"
+    dest: "{{ KAFKA_DIR }}"
+
+- name: add kafka link
+  file:
+    src: "{{ KAFKA_DIR }}/{{ VERSION }}"
+    path: "{{ KAFKA_DIR }}/kafka"
+    state: link
 
 - name: init DIR
+  sudo: yes
+  remote_user: root
   file:
     path: "{{ DATA_DIR }}"
     state: directory
+    owner: "{{ username }}"
+    group: "{{ username }}"
     mode: 0755
 
 
@@ -29,3 +50,10 @@
   template:
     src: server.properties.j2
     dest: "{{ KAFKA_DIR }}/kafka/config/server.properties"
+
+- name: generate kafka.service 
+  sudo: yes
+  remote_user: root
+  template:
+    src: kafka.service.j2
+    dest: "/etc/systemd/system/kafka.service"

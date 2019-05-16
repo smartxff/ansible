@@ -1,0 +1,12 @@
+[Unit]
+Description=kafka.service
+After=network.target
+[Service]
+User={{ username }}
+Group={{ username }}
+Type=forking
+ExecStart={{ KAFKA_DIR }}/kafka/bin/kafka-server-start.sh -daemon {{ KAFKA_DIR }}/kafka/config/server.properties
+ExecStop={{ KAFKA_DIR }}/zookeeper/bin/zkServer.sh stop
+ExecReload={{ KAFKA_DIR }}/zookeeper/bin/zkServer.sh restart
+[Install]
+WantedBy=multi-user.target
