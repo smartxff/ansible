@@ -1,3 +1,17 @@
+- name: SELINUX=disabled
+  sudo: yes
+  remote_user: root
+  selinux: state=disabled
+
+- name: stop firewalld
+  sudo: yes
+  remote_user: root
+  systemd:
+    state: stopped
+    name: firewalld
+    enabled: no
+  ignore_errors: True
+
 - name: create user
   user: name={{ username }} shell=/bin/bash createhome=yes
 

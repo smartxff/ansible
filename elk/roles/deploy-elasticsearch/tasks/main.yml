@@ -1,4 +1,5 @@
 ---
+
 - name: install java
   yum:
     name: "{{ item }}"

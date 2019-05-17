@@ -4,5 +4,6 @@
   hosts: all
   gather_facts: false
   roles:
+   - bootstrap
    - deploy-mysql57-offline
 

@@ -4,6 +4,7 @@
   hosts: node
   gather_facts: false
   roles:
+   - bootstrap
    - deploy-pgsql
 
 
