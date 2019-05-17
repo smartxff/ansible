@@ -1,0 +1,13 @@
+[Unit]
+Description=zookeeper.service
+After=network.target
+[Service]
+User={{ username }}
+Group={{ username }}
+Type=forking
+Environment=ZOO_LOG_DIR={{ ZOO_LOG_DIR }}
+ExecStart={{ ZOOKEEPER_DIR }}/zookeeper/bin/zkServer.sh start
+ExecStop={{ ZOOKEEPER_DIR }}/zookeeper/bin/zkServer.sh stop
+ExecReload={{ ZOOKEEPER_DIR }}/zookeeper/bin/zkServer.sh restart
+[Install]
+WantedBy=multi-user.target

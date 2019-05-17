@@ -1,0 +1,28 @@
+---
+
+- name: bootstrap
+  hosts: all
+  gather_facts: false
+  roles:
+    - bootstrap
+  tags:
+    - bootstrap
+
+- name: install
+  hosts: all
+  gather_facts: false
+  remote_user: "{{ username }}"
+  roles:
+    - install-java
+    - install-hbase
+  tags:
+    - install
+
+- name: configure
+  hosts: all
+  gather_facts: false
+  remote_user: "{{ username }}"
+  roles:
+    - configure-hbase
+  tags:
+    - config

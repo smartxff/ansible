@@ -1,6 +1,8 @@
 ---
 
 - name: install java
+  sudo: yes
+  remote_user: root
   yum:
     name: "{{ item }}"
     state: installed
@@ -8,25 +10,39 @@
     - java-1.8.0-openjdk
     - java-1.8.0-openjdk-devel  
 
-- name: deploy zookeeper
-  copy:
-    src: "{{ VERSION }}.tar.gz"
-    dest: "{{ ZOOKEEPER_DIR }}/"
-
-- name: decompression zookeeper
-  shell: |
-    cd {{ ZOOKEEPER_DIR }}
-    tar xf {{ VERSION }}.tar.gz 
-    mv {{ VERSION }} zookeeper
-
-- name: init DIR
+- name: create dir
+  sudo: yes
+  remote_user: root
   file:
     path: "{{ item }}"
     state: directory
-    mode: 0755
+    owner: "{{ username }}"
+    group: "{{ username }}"
   with_items:
-    - "{{ DATA_DIR }}"
-    - "{{ DATA_LOG_DIR }}"
+   - "{{ ZOOKEEPER_DIR }}"
+
+- name: decompression zookeeper
+  unarchive:
+    src: "{{ VERSION }}.tar.gz"
+    dest: "{{ ZOOKEEPER_DIR }}"
+
+- name: add zookeeper link
+  file:
+    src: "{{ ZOOKEEPER_DIR }}/{{ VERSION }}"
+    path: "{{ ZOOKEEPER_DIR }}/zookeeper"
+    state: link
+
+- name: create dir
+  sudo: yes
+  remote_user: root
+  file:
+    path: "{{ item }}"
+    state: directory
+    owner: "{{ username }}"
+    group: "{{ username }}"
+  with_items:
+   - "{{ DATA_DIR }}"
+   - "{{ DATA_LOG_DIR }}"
 
 - name: init DIR and myid
   lineinfile:
@@ -39,3 +55,9 @@
     src: zoo.cfg.j2
     dest: "{{ ZOOKEEPER_DIR }}/zookeeper/conf/zoo.cfg"
 
+- name: generate zookeeper.service
+  sudo: yes
+  remote_user: root
+  template:
+    src: zookeeper.service.j2
+    dest: /etc/systemd/system/zookeeper.service 

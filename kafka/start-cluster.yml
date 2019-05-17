@@ -1,17 +1,30 @@
 ---
-
 - name: deploy kafka
   hosts: all
   gather_facts: false
   roles:
+    - bootstrap
+  tags:
+   - bootstrap
+
+- name: deploy kafka
+  hosts: all
+  remote_user: "{{ username }}"
+  gather_facts: false
+  roles:
     - deploy-kafka
+  tags:
+    - deploy
 
 - name: start kafka
   hosts: all
   gather_facts: false
   tasks:
   - name: start kafka
-    shell: |
-      {{ KAFKA_DIR }}/kafka/bin/kafka-server-start.sh -daemon {{ KAFKA_DIR }}/kafka/config/server.properties
+    systemd:
+      state: started
+      name: kafka
+      daemon_reload: yes
+      enabled: yes
   tags:
     - start

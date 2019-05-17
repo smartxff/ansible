@@ -1,0 +1,25 @@
+---
+
+- name: start hbase master
+  hosts: master
+  gather_facts: false
+  remote_user: "{{ username }}"
+  tasks:
+  - name: start master
+    shell: |
+      nohup start-hbase.sh &
+    when: mode == "single" and role == "master"  
+  - name: start master
+    shell: |
+      nohup hbase-daemon.sh start master &
+    when: mode == "ha" and role == "master"
+
+- name: start hadoop node
+  hosts: node
+  gather_facts: false
+  remote_user: "{{ username }}"
+  tasks:
+  - name: start node
+    shell: |
+      nohup hbase-daemon.sh start regionserver &
+    when: mode == "ha"

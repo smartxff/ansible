@@ -1,0 +1,32 @@
+- name: create dir
+  sudo: yes
+  remote_user: root
+  file:
+    path: "{{ item }}"
+    state: directory
+    owner: "{{ username }}"
+    group: "{{ username }}"
+  with_items:
+   - "{{ JAVA_DIR }}"
+
+- name: decompression jdk
+  unarchive:
+    src: "{{ JDK_VERSION }}.tar.gz"
+    dest: "{{ JAVA_DIR }}"
+
+- name: add java link
+  file:
+    src: "{{ JAVA_DIR }}/{{ JDK_UNARCHIVE_NAME }}"
+    path: "{{ JAVA_DIR }}/java"
+    state: link
+
+- name: add env
+  lineinfile:
+    path:  ~/.bashrc
+    line: '{{ item }}'
+  with_items:
+    - export JAVA_HOME="{{ JAVA_DIR }}/java"
+    - export JRE_HOME=${JAVA_HOME}/jre
+    - export CLASSPATH=.:${JAVA_HOME}/lib:${JRE_HOME}/lib
+    - export PATH=${JAVA_HOME}/bin:$PATH
+

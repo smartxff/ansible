@@ -1,0 +1,56 @@
+---
+
+- name: stop hadoop master
+  hosts: master
+  gather_facts: false
+  remote_user: "{{ username }}"
+  tasks:
+  - name: stop master
+    shell: |
+      hbase-daemon.sh stop master
+      hdfs --daemon stop namenode
+      hdfs --daemon stop secondarynamenode
+      hdfs --daemon stop datanode
+      hdfs --daemon stop journalnode
+      yarn --daemon stop resourcemanager
+      hdfs --daemon stop zkfc
+      yarn --daemon stop nodemanager
+  tags:
+    - stop
+
+- name: stop hadoop node
+  hosts: node
+  gather_facts: false
+  remote_user: "{{ username }}"
+  tasks:
+  - name: stop node
+    shell: |
+      hbase-daemon.sh stop regionserver
+      hdfs --daemon stop namenode
+      hdfs --daemon stop secondarynamenode
+      hdfs --daemon stop datanode
+      hdfs --daemon stop journalnode
+      hdfs --daemon stop zkfc
+      yarn --daemon stop resourcemanager
+      yarn --daemon stop nodemanager
+  tags:
+    - stop
+
+- name: clean all
+  hosts: all
+  gather_facts: false
+  tasks:
+  - name: clean data dir
+    file:
+      path: "{{ item }}" 
+      state: absent
+    with_items:
+     - "{{ JAVA_DIR }}"
+     - "{{ HADOOP_DIR }}"
+     - "{{ DFS_NAMENODE_NAME_DIR }}"
+     - "{{ DFS_DATANODE_DATA_DIR }}"
+     - "{{ DFS_NAMENODE_CHECKPOINE_DIR }}"
+     - "{{  YARN_NODEMANAGER_LOCAL_DIRS }}"
+     - "{{ YARN_NODEMANAGER_REMOTE_APP_LOG_DIR }}"
+  tags:
+   - clean
