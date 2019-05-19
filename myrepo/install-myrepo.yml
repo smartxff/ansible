@@ -1,0 +1,7 @@
+---
+
+- name: install my repo
+  hosts: all
+  gather_facts: false
+  roles:
+    - install-myrepo 

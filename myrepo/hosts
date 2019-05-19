@@ -1,0 +1,11 @@
+[node]
+172.16.100.52
+172.16.100.76
+
+
+
+[all:vars]
+repodir=/data/repo
+java_repo_enabled=true
+pgsql_repo_enabled=true
+mysql_repo_enabled=true
