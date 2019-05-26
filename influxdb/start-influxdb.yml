@@ -1,0 +1,6 @@
+---
+- name: deploy kafka
+  hosts: all
+  gather_facts: false
+  roles:
+    - install-influxdb

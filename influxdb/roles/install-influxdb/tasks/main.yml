@@ -1,0 +1,36 @@
+
+- name: Add repo of influxdb 
+  yum_repository:
+    name: influxdb
+    description: InfluxDB Repository - RHEL \$releasever 
+    baseurl: https://repos.influxdata.com/rhel/\$releasever/\$basearch/stable 
+    gpgcheck: no
+    enabled: yes
+    gpgkey: https://repos.influxdata.com/influxdb.key
+
+- name: install influxdb
+  yum:
+    name: influxdb
+    state: latest
+
+- name: generate influxdb.conf
+  template:
+    src: influxdb.conf.j2
+    dest: "/etc/influxdb/influxdb.conf"
+
+- name: init DIR
+  file:
+    path: "{{ item }}"
+    state: directory
+    owner: "influxdb"
+    group: "influxdb"
+    mode: 0755
+  with_items:
+   - "/data/influxdb/meta"
+   - "/data/influxdb/data"
+   - "/data/influxdb/wal"
+
+- name: start influxdb 
+  systemd:
+    state: started
+    name: influxdb
