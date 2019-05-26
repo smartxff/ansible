@@ -1,0 +1,55 @@
+- name: create dir
+  file:
+    path: "{{ item }}"
+    state: directory
+  with_items:
+   - "/data/web/bin"
+   - "/data/web/script"
+
+- name: Set sysctl file limiits
+  pam_limits:
+      dest: "{{ item.dest }}"
+      domain: '*'
+      limit_type: "{{ item.limit_type }}"
+      limit_item: "{{ item.limit_item }}"
+      value: "{{ item.value }}"
+  with_items:
+      - { dest: '/etc/security/limits.conf',limit_type: 'soft',limit_item: 'nofile', value: '655350' }
+      - { dest: '/etc/security/limits.conf',limit_type: 'hard',limit_item: 'nofile', value: '655350'}
+      - { dest: '/etc/security/limits.conf',limit_type: 'soft',limit_item: 'nproc', value: '102400' }
+      - { dest: '/etc/security/limits.conf',limit_type: 'hard',limit_item: 'nproc', value: '102400' }
+      - { dest: '/etc/security/limits.conf',limit_type: 'soft',limit_item: 'sigpending', value: '255377' }
+      - { dest: '/etc/security/limits.conf',limit_type: 'hard',limit_item: 'sigpending', value: '255377' }
+      - { dest: '/etc/security/limits.d/90-nproc.conf', limit_type: 'soft',limit_item: 'nproc', value: '262144' }
+      - { dest: '/etc/security/limits.d/90-nproc.conf', limit_type: 'hard',limit_item: 'nproc', value: '262144' }
+
+- sysctl:
+    name: "{{ item.name }}"
+    value: "{{ item.value}}"
+    state: present
+    reload: yes
+  with_items:
+    - { name: 'vm.swappiness', value: '0'}
+    - { name: 'net.core.rmem_default ',value: '256960'}
+    - { name: 'net.core.rmem_max',value: '513920'}
+    - { name: 'net.core.wmem_default',value: '256960'}
+    - { name: 'net.core.wmem_max ',value: '513920'}
+    - { name: 'net.core.netdev_max_backlog ',value: '2000'}
+    - { name: 'net.core.somaxconn',value: '100000'}
+    - { name: 'net.core.optmem_max',value: '81920'}
+    - { name: 'net.ipv4.tcp_mem',value: '131072  262144  524288'}
+    - { name: 'net.ipv4.tcp_rmem',value: '8760  256960  4088000'}
+    - { name: 'net.ipv4.tcp_wmem',value: '8760  256960  4088000'}
+    - { name: 'net.ipv4.tcp_keepalive_time',value: '180'}
+    - { name: 'net.ipv4.tcp_keepalive_intvl',value: '30'}
+    - { name: 'net.ipv4.tcp_keepalive_probes',value: '3'}
+    - { name: 'net.ipv4.tcp_sack',value: '1'}
+    - { name: 'net.ipv4.tcp_fack',value: '1'}
+    - { name: 'net.ipv4.tcp_window_scaling',value: '1'}
+    - { name: 'net.ipv4.tcp_syncookies',value: '1'}
+    - { name: 'net.ipv4.tcp_tw_reuse',value: '1'}
+    - { name: 'net.ipv4.tcp_tw_recycle',value: '1'}
+    - { name: 'net.ipv4.tcp_fin_timeout',value: '10'}
+    - { name: 'net.ipv4.ip_local_port_range',value: '1024  65000'}
+    - { name: 'net.ipv4.tcp_max_syn_backlog',value: '100000'}
+    - { name: 'fs.file-max',value: '1000000'}
