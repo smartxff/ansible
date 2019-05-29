@@ -20,7 +20,7 @@
   shell: ls "{{ DFS_JOURNALNODE_EDITS_DIR }}/mycluster"
   ignore_errors: True
   register: result
-  when: mode == "ha" && role == "master"
+  when: mode == "ha" and role == "master"
 
 - name: judge a file or dir is exits
   shell: ls "{{ DFS_NAMENODE_NAME_DIR }}/current"
