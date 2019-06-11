@@ -6,7 +6,6 @@ User={{ username }}
 Group={{ username }}
 Type=forking
 ExecStart={{ KAFKA_DIR }}/kafka/bin/kafka-server-start.sh -daemon {{ KAFKA_DIR }}/kafka/config/server.properties
-ExecStop={{ KAFKA_DIR }}/zookeeper/bin/zkServer.sh stop
-ExecReload={{ KAFKA_DIR }}/zookeeper/bin/zkServer.sh restart
+ExecStop={{ KAFKA_DIR }}/kafka/bin/kafka-server-stop.sh
 [Install]
 WantedBy=multi-user.target
