@@ -3,52 +3,18 @@
     path: "{{ repodir }}"
     state: directory
 
+
 - name: install mysql repo
   unarchive:
-    src: "mysql-repo.tar.gz"
+    src: "myrepo.tar"
     dest: "{{ repodir }}"
-  when: mysql_repo_enabled
-
-- name: install pgsql repo
-  unarchive:
-    src: "pgsql-repo.tar.gz"
-    dest: "{{ repodir }}"
-  when: pgsql_repo_enabled
-  
-
-- name: install java repo
-  unarchive:
-    src: "java-repo.tar.gz"
-    dest: "{{ repodir }}"
-  when: java_repo_enabled
 
 
-- name: Add java repositories
+- name: Add myrepo repositories
   yum_repository:
-    name: myrepo-java
+    name: myrepo
     description: my repo
     file: my_repos
-    baseurl: "file://{{ repodir }}/java" 
+    baseurl: "file://{{ repodir }}/myrepo"
     enabled: yes
     gpgcheck: no
-  when: java_repo_enabled
-
-- name: Add pgsql repositories
-  yum_repository:
-    name: myrepo-pgsql
-    description: my repo
-    file: my_repos
-    baseurl: "file://{{ repodir }}/pgsql"
-    enabled: yes
-    gpgcheck: no
-  when: pgsql_repo_enabled
-
-- name: Add mysql repositories
-  yum_repository:
-    name: myrepo-mysql
-    description: my repo
-    file: my_repos
-    baseurl: "file://{{ repodir }}/mysql"
-    enabled: yes
-    gpgcheck: no
-  when: mysql_repo_enabled
