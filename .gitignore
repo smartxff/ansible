@@ -1,3 +1,4 @@
 **/files/
 !**/files/todo
 **/*.retry
+**/.DS_Store
