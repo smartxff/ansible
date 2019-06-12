@@ -5,7 +5,11 @@ After=network.target
 User={{ username }}
 Group={{ username }}
 Type=forking
+Environment="KAFKA_HEAP_OPTS=-Xmx{{ Xmx }} -Xms{{ Xms }}" "KAFKA_OPTS=-javaagent:{{ KAFKA_DIR }}/kafka_prometheus/jmx_prometheus_javaagent-0.2.0.jar=7071:{{ KAFKA_DIR }}/kafka_prometheus/kafka-0-8-2.yml"
 ExecStart={{ KAFKA_DIR }}/kafka/bin/kafka-server-start.sh -daemon {{ KAFKA_DIR }}/kafka/config/server.properties
 ExecStop={{ KAFKA_DIR }}/kafka/bin/kafka-server-stop.sh
+Restart=always
+RestartSec=5
+StartLimitInterval=0
 [Install]
 WantedBy=multi-user.target

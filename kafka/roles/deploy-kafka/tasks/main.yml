@@ -29,6 +29,11 @@
     src: "{{ VERSION }}.tgz"
     dest: "{{ KAFKA_DIR }}"
 
+- name: decompression kafka_prometheus
+  unarchive:
+    src: "kafka_prometheus.tgz"
+    dest: "{{ KAFKA_DIR }}"
+
 - name: add kafka link
   file:
     src: "{{ KAFKA_DIR }}/{{ VERSION }}"
