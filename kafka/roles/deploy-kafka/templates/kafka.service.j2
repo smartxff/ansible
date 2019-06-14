@@ -2,6 +2,9 @@
 Description=kafka.service
 After=network.target
 [Service]
+LimitCORE=infinity
+LimitNOFILE=100000
+LimitNPROC=100000
 User={{ username }}
 Group={{ username }}
 Type=forking
